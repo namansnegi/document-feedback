@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Processing Simulation</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Onest:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .header-logo .logo {
+            height: 50px;
+        }
+        .header-options {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .logout-button {
+            background-color: #00a676;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            max-width: 1200px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 80px;
+        }
+        .document-view, .text-view {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+            height: 700px;
+        }
+        .document-view iframe, .text-view pre {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow-y: auto;
+        }
+        .text-view pre {
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: justify;
+        }
+        .doc-header, .text-header {
+            background-color: white;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .button-row button {
+            background-color: #00a676;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="logo2.png" alt="Logo" class="logo">
+        </div>
+        <div class="header-options">
+            <a href="#" class="upgrade-link">Upgrade to Premium</a>
+            <span class="gpt-status">GPT-4.0 V</span>
+            <button onclick="window.location.href='/logout'" class="logout-button">Logout</button>
+        </div>
+    </header>
+    <div class="container">
+        <div class="document-view">
+            <div class="doc-header">Document</div>
+            <iframe id="documentViewer" src="sample-document.pdf"></iframe>
+        </div>
+        <div class="text-view">
+            <div class="text-header">Result</div>
+            <pre id="correctedText" contenteditable="true">
+                (Question No.) 33.
+                Secularism means independence of state from religious matters. In Indian context, the idea of secularism is different from western form of secularism because Indian focuses on equal promotion of all the religions.
+                In India, Article 25 & Article 30 discusses the role of state in religious affairs. India does not separate itself from religious institutions, but equally promotes all the religions.
+                
+                Indian secularism
+                - Focus on all religion.
+                - State change fees from religious endowments.
+                - It's a positive form of secularism.
+                - Because of diversity in religious culture, India should focus on religious and cultural rights of all.
+                - This idea helps to reduce dominance of one religion.
+                - Protect rights of minority community by giving them educational rights.
+                
+                Western secularism
+                - Separation of religion from state.
+                - Focus on individual rights.
+                - Negative form of secularism.
+                - State does not interfere in religious affairs.
+                - Religion is seen as a private affair.
+            </pre>
+            <div class="button-row">
+                <button id="saveButton">Save Changes</button>
+                <button id="evaluateButton">Evaluate</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

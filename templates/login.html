@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Onest:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" class="logo">
+        </div>
+    </header>
+    <div class="login-page">
+        <div class="info-section">
+            <div class="icons">
+                <img src="{{ url_for('static', filename='handwritten-icon.png') }}" alt="Handwritten Document" class="icon">
+                <iframe src="https://giphy.com/embed/PWBCZGqdulucLMDy5f" width="50" height="50" frameborder="0" class="giphy-embed" allowfullscreen></iframe>
+                <img src="{{ url_for('static', filename='digital-icon.png') }}" alt="Digital Document" class="icon">
+            </div>
+            <h2 class="punchline">Transform Your Handwritten Answers into Insightful Feedback</h2>
+            <p class="description">Our innovative platform seamlessly converts your handwritten responses into digital text and provides AI-powered feedback to enhance your learning experience.</p>
+        </div>
+        <div class="login-section">
+            <h1 class="welcome-back">Welcome Back!</h1>
+            <h2 class="login-email">Login with your email</h2>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% endwith %}
+            <form method="POST">
+                <div class="input-group">
+                    <label for="username">Email:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="actions">
+                    <div>
+                        <input type="checkbox" id="stay-login" name="stay-login" checked>
+                        <label for="stay-login">Stay login</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Onest:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" class="logo">
+        </div>
+        <div class="header-options">
+            <a href="#" class="upgrade-link">Upgrade to Premium</a>
+            <span class="gpt-status">GPT-4.0 V</span>
+        </div>
+    </header>
+    <div class="main-content processing" id="processing">
+        <img src="{{ url_for('static', filename='processing-icon.png') }}" alt="Processing Icon" class="processing-icon">
+        <h1>Processing the document</h1>
+        <p>reading text...</p>
+        <div class="loader"></div>
+    </div>
+    <div class="main-content results" id="results" style="display: none;">
+        <div class="document-view">
+            <div class="doc-header">Document</div>
+            <iframe id="documentViewer" src="" frameborder="0"></iframe>
+        </div>
+        <div class="text-view">
+            <div class="text-header">Result</div>
+            <pre id="correctedText"></pre>
+        </div>
+    </div>
+
+</body>
+</html>

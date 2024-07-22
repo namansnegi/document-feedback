@@ -1,0 +1,527 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Onest:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+p {
+    margin-bottom: 20px; /* Increase space between paragraphs */
+    line-height: 1.6; /* Adjust line height for paragraphs */
+}
+
+li {
+    margin-bottom: 10px; /* Increase space between list items */
+    line-height: 1.6; /* Adjust line height for list items */
+}
+
+h2 {
+    margin-top: 20px; /* Add space after headings */
+    margin-bottom: 10px; /* Add space after headings */
+}
+
+.section {
+    margin-bottom: 40px; /* Add space after sections */
+}
+
+
+header.sticky-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.header-logo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.header-logo .logo {
+    height: 50px;
+}
+
+
+.login-page {
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-top: 60px; /* Adjust this to prevent header overlap */
+}
+
+.info-section {
+    background-color: #000;
+    color: white;
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.icon {
+    width: 50px;
+    margin: 0 10px;
+}
+
+.giphy-embed {
+    width: 50px !important;
+    height: 50px !important; /* Ensures the GIF is 50px by 50px */
+    margin: 0 10px;
+}
+
+.info-section .punchline {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Onest', Arial, sans-serif;
+}
+
+.info-section .description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    text-align: center;
+    font-family: 'Onest', Arial, sans-serif;
+}
+
+.info-section .description .highlight {
+    font-weight: 700;
+}
+
+.login-section {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-section .welcome-back {
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16.94px;
+    letter-spacing: -0.02em;
+    color: rgba(33, 35, 41, 1);
+    margin-bottom: 10px;
+}
+
+.login-section .login-email {
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 26.63px;
+    letter-spacing: -0.02em;
+    color: rgba(33, 35, 41, 1);
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16.94px;
+    letter-spacing: -0.02em;
+    color: rgba(33, 35, 41, 1);
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.actions input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.actions .forgot-password {
+    color: #00a676;
+    text-decoration: none;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #00a676;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+}
+
+.social-login button {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.social-login .google-btn {
+    background-color: white;
+    color: black;
+}
+
+.social-login .apple-btn {
+    background-color: black;
+    color: white;
+}
+
+.social-login .facebook-btn {
+    background-color: #3b5998;
+    color: white;
+}
+
+.login-section p {
+    text-align: center;
+}
+
+.header-options {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.upgrade-link {
+    color: #00a676;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.gpt-status {
+    font-weight: 500;
+}
+
+.language-select {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+.flag {
+    width: 20px;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px); /* Adjust for header height */
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    text-align: center;
+}
+
+.upload-section {
+    margin: 20px 0;
+}
+
+.upload-box {
+    position: relative;
+    width: 835px; /* Updated width */
+    height: 165px; /* Updated height */
+    border: 2px dashed rgba(16, 185, 129, 1); /* Updated border color */
+    border-radius: 10px;
+    background-color: rgba(16, 185, 129, 1); /* Updated background color */
+    background-size: cover; /* Ensure the image covers the entire area */
+    background-position: center; /* Center the image */
+    overflow: hidden;
+    margin: 0 auto; /* Center the upload box */
+}
+
+.upload-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.upload-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center; /* Ensure text is centered */
+}
+
+.upload-button {
+    background-color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.previous-files {
+    display: grid; /* Use grid display */
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 20px; /* Adjust gap between items */
+    justify-content: center;
+    margin-top: 30px;
+    width: 835px; /* Same width as upload box */
+    margin: 0 auto; /* Center the previous files section */
+}
+
+.file-item {
+    background-color: white;
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-icon {
+    width: 69px;
+    height: auto;
+}
+
+.file-details {
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background-color: white;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+.previous-files-title {
+    width: 835px; /* Same width as upload box */
+    text-align: left; /* Align text to the left */
+    margin: 20px 0; /* Add some margin for spacing */
+    font-size: 14px;
+    color:rgba(120, 113, 108, 1)
+}
+
+.logout-button {
+    background-color: #00a676;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.processing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh; /* Ensure it takes most of the screen height */
+}
+
+.resultsSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+    background-color: #ffffff; /* White background for container */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    text-align: justify;
+}
+
+.document-view, .text-view {
+    display: flex;
+    flex-direction: column;
+    min-height: 700px; /* Ensure flex container does not grow larger than its content */
+    max-height: 700px;
+    margin-right: 20px; 
+    overflow: hidden; /* Ensure content does not overflow the container */
+}
+
+.document-view {
+    flex: 0 0 45%; /* Take 40% of the width */
+}
+
+.text-view {
+    flex: 0 0 55%; /* Take 60% of the width */
+}
+
+.document-view iframe, .text-view {
+    flex: 1;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-height: 700px; 
+    overflow-y: auto;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+
+iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+
+.doc-header, .text-header {
+    background-color: white;
+    position: sticky;
+    top: 0;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 10px; /* Add space between header and content */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+pre#correctedText {
+    white-space: pre-wrap; /* Wrap the text */
+    text-align: justify; /* Justify the text */
+    padding: 10px; /* Add padding around the text */
+    background-color: #f9f9f9; /* Light background color */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    overflow: auto; /* Add scrollbar if necessary */
+}
+
+
+.loader {
+    width: 200px;
+    height: 20px;
+    background: linear-gradient(#000 0 0) 0/0% no-repeat #ddd;
+    animation: l1 2s infinite linear;
+    margin-top: 20px;
+}
+
+@keyframes l1 {
+    100% {background-size:100%}
+}
+
+.button-row {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-top: 10px;
+}
+
+.button-row button {
+    background-color: #00a676;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1; /* Make both buttons take equal space */
+}
+
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(211, 211, 211, 0.6); /* Light grey transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Ensure it overlays the content */
+}
+
+.loader2 {
+    width: 60px;
+    aspect-ratio: 1;
+    border: 15px solid #ddd;
+    border-radius: 50%;
+    position: relative;
+    transform: rotate(45deg);
+}
+
+.loader2::before {
+    content: "";
+    position: absolute;
+    inset: -15px;
+    border-radius: 50%;
+    border: 15px solid #514b82;
+    animation: l18 2s infinite linear;
+}
+
+@keyframes l18 {
+    0%   {clip-path:polygon(50% 50%,0 0,0    0,0    0   ,0    0   ,0    0   )}
+    25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0   ,100% 0   ,100% 0   )}
+    50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+    75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0    100%,0    100%)}
+    100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0    100%,0    0   )}
+}

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Processing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Onest:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" class="logo">
+        </div>
+        <div class="header-options">
+            <a href="#" class="upgrade-link">Upgrade to Premium</a>
+            <span class="gpt-status">GPT-4.0 V</span>
+            <button onclick="window.location.href='/logout'" class="logout-button">Logout</button>
+        </div>
+    </header>
+
+    <div class="main-content" id="mainContent">
+        <!-- Sections will be toggled here -->
+        <div id="uploadSection">
+            {% if current_user.is_authenticated %}
+            <h1 style="margin-bottom: 16px;">Choose your file</h1>
+            <p>Start by uploading your handwritten document a new PDF, accessing your previous uploads.</p>
+            <div class="upload-section">
+                <div class="upload-box">
+                    <img src="{{ url_for('static', filename='mask.png') }}" alt="Mask" class="upload-mask">
+                    <div class="upload-content">
+                        <p style="color: white; font-size:22px; font-weight: 700;">Drag and Drop</p>
+                        <p style="color: white; font-size:14px; font-weight: 400;margin-top: 10px;">----Or----</p>
+                        <button class="upload-button" id="upload-button">Choose file to upload</button>
+                        <input type="file" id="fileInput" style="display: none;">
+                    </div>
+                </div>
+            </div>
+            <h2 class="previous-files-title">Previous files</h2>
+            <div class="previous-files">
+                <div class="file-item">
+                    <img src="{{ url_for('static', filename='files.png') }}" alt="File Icon" class="file-icon">
+                    <div class="file-details">
+                        <p>Game plan of the business</p>
+                        <span>23 days ago</span>
+                    </div>
+                </div>
+                <!-- Repeat the file-item for each previous file -->
+            </div>
+            {% else %}
+            <p>Please log in to access this page.</p>
+            {% endif %}
+        </div>
+        
+        <div id="processingSection" style="display: none;">
+            <div class="processing-container">
+                <img src="{{ url_for('static', filename='processing-icon.png') }}" alt="Processing Icon" class="processing-icon">
+                <h1>Processing the document</h1>
+                <p>reading text...</p>
+                <div class="loader"></div>
+            </div>
+        </div>
+
+        <div class="resultsSection" id="resultsSection" style="display: none;">
+
+                <div class="document-view">
+                    <div class="doc-header">Document</div>
+                    <iframe id="documentViewer" src="" frameborder="0"></iframe>
+                </div>
+
+                <div class="text-view">
+                    <div class="text-header">Result</div>
+                    <pre id="correctedText" contenteditable="true"></pre>
+                    <div id="mask" class="mask" style="display: none;">
+                        <div class="loader2"></div>
+                    </div>
+                    <div class="button-row">
+                        <button id="saveButton">Save Changes</button>
+                        <button id="evaluateButton">Evaluate</button>
+                    </div>
+                </div>
+
+        </div>
+
+    </div>
+    
+    <script>
+        function extractTextFromBlocks(blocks) {
+            return blocks.map(block => block.Text).join(' ');
+        }
+
+        function displayText(htmlString) {
+            const resultContainer = document.getElementById('correctedText');
+            resultContainer.innerHTML = ''; // Clear previous content
+
+            // Handle edge cases where htmlString is null, undefined, or empty
+            if (!htmlString) {
+                resultContainer.innerText = 'No content to display.';
+                return;
+            }
+
+            try {
+                // Wrap the HTML string in a <div> to ensure proper parsing
+                const wrappedHtmlString = `<div>${htmlString}</div>`;
+
+                // Parse the wrapped HTML string
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(wrappedHtmlString, 'text/html');
+
+                // Append all child nodes of the parsed content to the result container
+                Array.from(doc.body.childNodes).forEach(node => {
+                    resultContainer.appendChild(node);
+                });
+            } catch (error) {
+                console.error('Error parsing HTML string:', error);
+                resultContainer.innerText = 'Error displaying content.';
+            }
+        } 
+        function displayFormattedText(jsonData) {
+            console.log("display data:",jsonData)
+            const resultContainer = document.getElementById('correctedText');
+            resultContainer.innerHTML = ''; // Clear previous content
+
+            if (!jsonData) {
+                resultContainer.innerText = 'No content to display.';
+                return;
+            }
+
+            try {
+                let htmlString = `<h2>Feedback</h2><p>${jsonData.Feedback}</p>`;
+
+                htmlString += `<h2>Scores</h2><ul style="padding-left: 1;">`;
+                for (const [key, value] of Object.entries(jsonData.Scores)) {
+                    htmlString += `<li><strong>${key}:</strong> ${value}</li>`;
+                }
+                htmlString += `</ul>`;
+
+                htmlString += `<h2>Points for Improvement</h2><ul style="list-style-type: none; padding-left: 1;">`;
+                for (const [key, value] of Object.entries(jsonData['Improvement'])) {
+                    htmlString += `<li><strong>${key}:</strong> ${value}</li>`;
+                }
+                htmlString += `</ul>`;
+
+                htmlString += `<h2>Reading Material Links</h2><ul>`;
+                for (const [key, value] of Object.entries(jsonData['Links'])) {
+                    htmlString += `<li><a href="${value}" target="_blank">${key}</a></li>`;
+                }
+                htmlString += `</ul>`;
+
+                resultContainer.innerHTML = htmlString;
+            } catch (error) {
+                console.error('Error parsing JSON data:', error);
+                resultContainer.innerText = 'Error displaying content.';
+            }
+        }
+
+
+        async function handleFileUpload(file) {
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const fileContent = e.target.result.split(',')[1];
+                    const fileName = file.name;
+
+                    document.getElementById('uploadSection').style.display = 'none';
+                    document.getElementById('processingSection').style.display = 'flex';
+
+                    try {
+                        const response = await fetch('/process-document', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ fileContent, fileName }),
+                        });
+
+                        const data = await response.json();
+                        if (data.error) {
+                            console.error('Error:', data.error);
+                            alert('An error occurred during processing: ' + data.error);
+                            document.getElementById('uploadSection').style.display = 'block';
+                            document.getElementById('processingSection').style.display = 'none';
+                        } else {
+                            const ocrText = extractTextFromBlocks(data.Blocks);
+                            const correctedResponse = await fetch('/correct-text', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ text: ocrText }),
+                            });
+
+                            const correctedData = await correctedResponse.json();
+                            displayText(correctedData.corrected_text);
+                            document.getElementById('documentViewer').src = e.target.result;
+
+                            document.getElementById('processingSection').style.display = 'none';
+                            document.getElementById('resultsSection').style.display = 'flex';
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('An error occurred during processing.');
+                        document.getElementById('uploadSection').style.display = 'block';
+                        document.getElementById('processingSection').style.display = 'none';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadButton = document.getElementById('upload-button');
+            const fileInput = document.getElementById('fileInput');
+
+            uploadButton.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', () => {
+                const file = fileInput.files[0];
+                handleFileUpload(file);
+            });
+        });
+
+        document.getElementById('saveButton').addEventListener('click', () => {
+            const correctedText = document.getElementById('correctedText').innerText;
+            console.log('Corrected text saved:', correctedText);
+            // You can send this corrected text to the server if needed
+        });
+
+
+        evaluateButton.addEventListener('click', async () => {
+            const resultContainer = document.getElementById('correctedText');
+            const correctedText = resultContainer.textContent.trim();
+            const question = "What is Secularism? How is Indian secularism different from Western Secularism?"; // Replace this with the dynamic question if needed
+            const mask = document.getElementById('mask');
+
+            // Show the mask and loader
+            mask.style.display = 'flex';
+
+            try {
+                const response = await fetch('/evaluate-text', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: correctedText, question: question }),
+                });
+
+                const data = await response.json();
+                const feedback = data.feedback
+                const feedbackData = JSON.parse(feedback)
+            
+                displayFormattedText(feedbackData);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.innerText = 'An error occurred during evaluation.';
+            } finally {
+                // Hide the mask and loader
+                mask.style.display = 'none';
+            }
+        });
+
+
+    </script>
+</body>
+</html>
