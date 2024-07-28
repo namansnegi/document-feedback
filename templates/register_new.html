@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Register</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Onest:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -25,8 +25,9 @@
             <p class="description">Our innovative platform seamlessly converts your handwritten responses into digital text and provides AI-powered feedback to enhance your learning experience.</p>
         </div>
         <div class="login-section">
-            <h1 class="welcome-back">Welcome Back!</h1>
-            <h2 class="login-email">Login with your email</h2>
+            <h1 class="welcome-back">Register</h1>
+            <h2 class="login-email">Register now!</h2>
+            <div id="alert-container"></div>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
@@ -41,27 +42,43 @@
                 </div>
             {% endif %}
             {% endwith %}
-            <form method="POST">
+            <form method="POST" onsubmit="return validateForm()">
                 <div class="input-group">
-                    <label for="username">Email:</label>
+                    <label for="username">Email</label>
                     <input type="text" id="username" name="username" required>
                 </div>
                 <div class="input-group">
-                    <label for="password">Password:</label>
+                    <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <div class="actions">
-                    <div>
-                        <input type="checkbox" id="stay-login" name="stay-login" checked>
-                        <label for="stay-login">Stay login</label>
-                    </div>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
+                <div class="input-group">
+                    <label for="confirmPassword">Confirm password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
                 </div>
-                <button type="submit" class="login-btn">Login</button>
+                <button type="submit" class="login-btn">Register</button>
             </form>
-            <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
         </div>
     </div>
+    <script>
+    function validateForm() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        if (password !== confirmPassword) {
+            var alertContainer = document.getElementById("alert-container");
+            alertContainer.innerHTML = `
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Passwords do not match. Please try again.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `;
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
