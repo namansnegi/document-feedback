@@ -29,7 +29,7 @@
             <h2 class="login-email">Login with your email</h2>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <ul class="mb-0">
                     {% for message in messages %}
                         {{ messages[-1] }}

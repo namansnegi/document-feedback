@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Display</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Onest:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="sticky-header">
+      <div class="header-logo">
+        <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" class="logo" />
+      </div>
+      <div class="header-options">
+        <a href="#" class="upgrade-link">Upgrade to Premium</a>
+        <span class="gpt-status">GPT-4.0 V</span>
+        <button onclick="window.location.href='/logout'" class="logout-button">Logout</button>
+      </div>
+    </header>
+
+    <div class="main-content" id="mainContent">
+      <button onclick="window.location.href='/'" class="logout-button back-button">Back</button>
+      <div class="container">
+        <div class="pdf-column">
+          <iframe id="documentViewer" src="data:application/pdf;base64,{{ file_content_base64 }}" frameborder="0"></iframe>
+        </div>
+        <div class="text-column">
+          <div class="pagination" id="pagination"></div>
+          <div id="contentContainer"></div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .main-content {
+        margin: 20px;
+        margin-top: 80px; /* Adjust this margin to prevent overlap with the navbar */
+      }
+      .container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        height: 80vh; /* Set consistent height */
+      }
+      .pdf-column {
+        width: 40%;
+        padding: 10px;
+      }
+      .text-column {
+        width: 60%;
+        padding: 10px;
+        background: #f9f9f9;
+        border-radius: 10px;
+        overflow-y: auto; /* Scroll if content overflows */
+        text-align: left; /* Left align text */
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+      .logout-button.back-button {
+        margin-bottom: 20px;
+        border: 2px solid white;
+        transition: background-color 0.3s ease;
+      }
+      .logout-button.back-button:hover {
+        color: #00a676;
+        background-color: white;
+        border: 2px solid #00a676;
+      }
+      .logout-button {
+        border: 2px solid white;
+        transition: background-color 0.3s ease;
+      }
+      .logout-button:hover {
+        color: #00a676;
+        background-color: white;
+        border: 2px solid #00a676;
+      }
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      .page-item {
+        margin: 0 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: white;
+        color: #00a676;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        border: 2px solid #00a676;
+      }
+      .page-item:hover {
+        color: white;
+        background-color: #00a676;
+      }
+      .page-item.active {
+        color: white;
+        background-color: #00a676;
+      }
+      .content-section {
+        display: none;
+      }
+      .content-section.active {
+        display: block;
+      }
+      .text-header {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+      .text-content {
+        margin-bottom: 20px;
+      }
+      h3 {
+        color: #00a676;
+      }
+      ul {
+        padding-left: 20px;
+      }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      const evaluationResult = {{ document.evaluation_result|tojson }};
+      const contentContainer = document.getElementById('contentContainer');
+      const pagination = document.getElementById('pagination');
+      const itemsPerPage = 1;
+      let currentPage = 1;
+
+      function renderContent() {
+        contentContainer.innerHTML = '';
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const items = evaluationResult.slice(start, end);
+
+        items.forEach(item => {
+          const contentSection = document.createElement('div');
+          contentSection.classList.add('content-section', 'active');
+
+          const questionHeader = document.createElement('h3');
+          questionHeader.innerText = "Question:";
+          contentSection.appendChild(questionHeader);
+
+          const question = document.createElement('p');
+          question.innerText = item.Question;
+          question.classList.add('text-content');
+          contentSection.appendChild(question);
+
+          const answerHeader = document.createElement('h3');
+          answerHeader.innerText = "Answer:";
+          contentSection.appendChild(answerHeader);
+
+          const answer = document.createElement('p');
+          answer.innerText = item.Answer;
+          answer.classList.add('text-content');
+          contentSection.appendChild(answer);
+
+          const feedbackHeader = document.createElement('h3');
+          feedbackHeader.innerText = "Feedback:";
+          contentSection.appendChild(feedbackHeader);
+
+          const feedback = document.createElement('p');
+          feedback.innerText = item.Feedback;
+          feedback.classList.add('text-content');
+          contentSection.appendChild(feedback);
+
+          const scoresHeader = document.createElement('h3');
+          scoresHeader.innerText = "Scores:";
+          contentSection.appendChild(scoresHeader);
+
+          const scoresList = document.createElement('ul');
+          for (const [key, value] of Object.entries(item.Scores)) {
+            const scoreItem = document.createElement('li');
+            scoreItem.innerText = `${key}: ${value}`;
+            scoresList.appendChild(scoreItem);
+          }
+          contentSection.appendChild(scoresList);
+
+          const improvementHeader = document.createElement('h3');
+          improvementHeader.innerText = "Improvement:";
+          contentSection.appendChild(improvementHeader);
+
+          const improvementList = document.createElement('ul');
+          for (const [key, value] of Object.entries(item.Improvement)) {
+            const improvementItem = document.createElement('li');
+            improvementItem.innerText = `${key}: ${value}`;
+            improvementList.appendChild(improvementItem);
+          }
+          contentSection.appendChild(improvementList);
+
+          const linksHeader = document.createElement('h3');
+          linksHeader.innerText = "Links:";
+          contentSection.appendChild(linksHeader);
+
+          const linksList = document.createElement('ul');
+          item.Links.forEach(link => {
+            const linkItem = document.createElement('li');
+            const anchor = document.createElement('a');
+            anchor.href = link;
+            anchor.target = '_blank';
+            anchor.innerText = link;
+            linkItem.appendChild(anchor);
+            linksList.appendChild(linkItem);
+          });
+          contentSection.appendChild(linksList);
+
+          contentContainer.appendChild(contentSection);
+        });
+
+        updatePagination();
+      }
+
+      function updatePagination() {
+        pagination.innerHTML = '';
+        const pageCount = Math.ceil(evaluationResult.length / itemsPerPage);
+
+        for (let i = 1; i <= pageCount; i++) {
+          const pageItem = document.createElement('div');
+          pageItem.classList.add('page-item');
+          if (i === currentPage) {
+            pageItem.classList.add('active');
+          }
+          pageItem.innerText = i;
+          pageItem.addEventListener('click', () => {
+            currentPage = i;
+            renderContent();
+          });
+          pagination.appendChild(pageItem);
+        }
+      }
+
+      renderContent();
+    </script>
+  </body>
+</html>

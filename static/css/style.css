@@ -525,3 +525,27 @@ pre#correctedText {
     75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0    100%,0    100%)}
     100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0    100%,0    0   )}
 }
+
+
+.loader {
+    width: 39px;
+    height: 39px;
+    border: 6px solid transparent;
+    border-top: 6px solid #000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+    margin-top: 20%;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+
+.loader-div {
+    width: 69px;
+    height: 69px;
+}
