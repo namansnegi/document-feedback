@@ -2,3 +2,5 @@ Flask
 pytesseract
 Pillow
 openai
+flask_login
+flask_pymongo
