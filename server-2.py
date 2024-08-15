@@ -24,7 +24,7 @@ app = Flask(__name__)
 
 
 # Configure the SQLAlchemy part of the app instance
-app.config["MONGO_URI"] = "mongodb+srv://admin:1234@cluster0.dicy2zo.mongodb.net/main-db?retryWrites=true&w=majority"
+app.config["MONGO_URI"] = "mongodb+srv://namansnegi:nBYWfOAwu4H158HC@ocrfeedback.wtb8m8z.mongodb.net/main-db?retryWrites=true&w=majority"
 mongo = PyMongo(app)
 
 # Flask-Login configuration
